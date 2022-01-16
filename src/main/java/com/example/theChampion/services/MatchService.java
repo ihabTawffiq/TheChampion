@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface MatchService {
-    ResponseEntity<ResponseWrapper<List<MatchEntity>>> startFirstRound();
     ResponseEntity<ResponseWrapper<List<MatchEntity>>> startTheLeague();
     ResponseEntity<ResponseWrapper<ParticipantEntity>> findTheChampion();
 }

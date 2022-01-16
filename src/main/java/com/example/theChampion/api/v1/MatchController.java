@@ -1,6 +1,6 @@
 package com.example.theChampion.api.v1;
 
-import com.example.theChampion.data.entities.GroupEntity;
+//import com.example.theChampion.data.entities.GroupEntity;
 import com.example.theChampion.data.entities.MatchEntity;
 import com.example.theChampion.data.entities.ParticipantEntity;
 import com.example.theChampion.data.responses.ResponseWrapper;

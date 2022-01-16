@@ -31,12 +31,6 @@ public class ParticipantEntity {
 
     private int score;
 
-
-
-    @JsonIgnore
-    @ManyToOne
-    private GroupEntity group;
-
     @Column(name = "first_round" )
     private int firstRound;
 

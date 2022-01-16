@@ -1,11 +1,9 @@
 package com.example.theChampion.services.impl;
 
-import com.example.theChampion.data.entities.GroupEntity;
 import com.example.theChampion.data.entities.MatchEntity;
 import com.example.theChampion.data.entities.ParticipantEntity;
 import com.example.theChampion.data.responses.ResponseWrapper;
 import com.example.theChampion.helpers.ReporterHandler;
-import com.example.theChampion.repositories.GroupRepository;
 import com.example.theChampion.repositories.MatchRepository;
 import com.example.theChampion.repositories.ParticipateRepository;
 import com.example.theChampion.services.MatchService;
@@ -19,56 +17,14 @@ import java.util.Random;
 @Service
 public class MatchServiceImpl implements MatchService {
     private final MatchRepository matchRepository;
-    private final GroupRepository groupRepository;
     private final ParticipateRepository participateRepository;
 
-    public MatchServiceImpl(MatchRepository matchRepository, GroupRepository groupRepository, ParticipateRepository participateRepository) {
+    public MatchServiceImpl(MatchRepository matchRepository,
+                            ParticipateRepository participateRepository) {
         this.matchRepository = matchRepository;
-        this.groupRepository = groupRepository;
         this.participateRepository = participateRepository;
     }
 
-    @Override
-    public ResponseEntity<ResponseWrapper<List<MatchEntity>>> startFirstRound() {
-        ReporterHandler<List<MatchEntity>> reporterHandler = new ReporterHandler<>();
-        try {
-            List<MatchEntity> allMatchs = new ArrayList<>();
-            List<ParticipantEntity> allPlayers = new ArrayList<>();
-            Random r = new Random();
-            List<GroupEntity> groupEntityList = groupRepository.findAll();
-            for (GroupEntity group : groupEntityList){
-                List<ParticipantEntity> groupPlayers = participateRepository.findAllByGroupAndFirstRound(group,0);
-                while (!groupPlayers.isEmpty()){
-                    ParticipantEntity firstPlayer = groupPlayers.remove(r.nextInt(groupPlayers.size()));
-                    ParticipantEntity secondPlayer = groupPlayers.remove(r.nextInt(groupPlayers.size()));
-                    firstPlayer.setFirstRound(1);
-                    secondPlayer.setFirstRound(1);
-                    allPlayers.add(firstPlayer);
-                    allPlayers.add(secondPlayer);
-                    allMatchs.add(MatchEntity
-                            .builder()
-                            .firstPlayerId(firstPlayer.getId())
-                            .secondPlayerId(secondPlayer.getId())
-                            .build());
-                }
-            }
-            matchRepository.saveAll(allMatchs);
-            participateRepository.saveAll(allPlayers);
-            ResponseWrapper<List<MatchEntity>> wrapper = new ResponseWrapper<>();
-            wrapper.setBody(allMatchs);
-            wrapper.setMessage("Success , The Number Of Created Matches Is : "+allMatchs.size());
-            wrapper.setSuccess(true);
-            return reporterHandler.reportSuccess(wrapper);
-
-        }catch (Exception | Error e){
-            return reporterHandler.reportFailure(ResponseWrapper
-                    .builder()
-                    .body(null)
-                    .message("Failure , First Round Started Already ")
-                    .success(false)
-                    .build());
-        }
-    }
 
     @Override
     public ResponseEntity<ResponseWrapper<List<MatchEntity>>> startTheLeague() {
@@ -158,7 +114,7 @@ public class MatchServiceImpl implements MatchService {
               return reporterHandler.reportSuccess(ResponseWrapper
                       .builder()
                       .body(null)
-                      .message("Opps , The League did not start till now ")
+                      .message("Oops , The League did not start till now ")
                       .success(false)
                       .build());
           }else {
