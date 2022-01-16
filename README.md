@@ -5,6 +5,9 @@ To Run This Project Please Follow The Following Steps :
 1-Creating MYSQL Database with Name the_champion
 2-Build The Maven dependencies from Pom.xml file , it will build by default from the IDE
 
+"##################### Swagger UI & Data Models #####################"
+P.s: you Can Find All APIs Documentation And All Data Models 
+Over This Link: http://localhost:9900/swagger-ui.html
 
 "##################### THE CHAMPION LEAGUE PORT #####################"
 The Champion League Will Run On 9900 Port so please free it if it used by another process
